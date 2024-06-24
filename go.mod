@@ -54,6 +54,7 @@ require (
 	github.com/rodaine/table v1.2.0
 	github.com/rogpeppe/go-internal v1.12.0
 	github.com/rs/cors v1.11.0
+	github.com/samber/go-gpt-3-encoder v0.3.1
 	github.com/sebest/xff v0.0.0-20210106013422-671bd2870b3a
 	github.com/stoewer/go-strcase v1.3.0
 	github.com/tetratelabs/wazero v1.7.2
@@ -70,6 +71,7 @@ require (
 	gorm.io/gorm v1.25.10
 	gorm.io/plugin/prometheus v0.1.0
 	honnef.co/go/transmission v0.0.0-20200712215954-58262f0ca9c9
+	jaytaylor.com/html2text v0.0.0-20230321000545-74c2419ad056
 	modernc.org/sqlite v1.30.0
 	nhooyr.io/websocket v1.8.11
 	tailscale.com v1.66.4
@@ -140,7 +142,7 @@ require (
 	github.com/gorilla/securecookie v1.1.2 // indirect
 	github.com/grbit/go-json v0.11.0 // indirect
 	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
-	github.com/hashicorp/go-retryablehttp v0.7.5 // indirect
+	github.com/hashicorp/go-retryablehttp v0.7.7 // indirect
 	github.com/hashicorp/golang-lru v1.0.2 // indirect
 	github.com/hashicorp/golang-lru/v2 v2.0.7 // indirect
 	github.com/hashicorp/hcl/v2 v2.13.0 // indirect
@@ -191,7 +193,6 @@ require (
 	github.com/polydawn/refmt v0.89.1-0.20221221234430-40501e09de1f // indirect
 	github.com/remyoudompheng/bigfft v0.0.0-20230129092748-24d4a6f8daec // indirect
 	github.com/safchain/ethtool v0.3.0 // indirect
-	github.com/samber/go-gpt-3-encoder v0.3.1 // indirect
 	github.com/samber/lo v1.38.1 // indirect
 	github.com/savsgio/gotils v0.0.0-20240303185622-093b76447511 // indirect
 	github.com/sergi/go-diff v1.3.2-0.20230802210424-5b0b94c5c0d3 // indirect
@@ -227,7 +228,6 @@ require (
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20240318140521-94a12d6c2237 // indirect
 	gopkg.in/warnings.v0 v0.1.2 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	jaytaylor.com/html2text v0.0.0-20230321000545-74c2419ad056 // indirect
 	lukechampine.com/blake3 v1.2.1 // indirect
 	modernc.org/gc/v3 v3.0.0-20240107210532-573471604cb6 // indirect
 	modernc.org/libc v1.50.9 // indirect
