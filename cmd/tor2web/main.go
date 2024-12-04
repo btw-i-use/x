@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"net/http/httputil"
+	"net/url"
 	"os"
 
 	"github.com/birkelund/boltdbcache"
@@ -48,9 +49,11 @@ func Run(args []string) error {
 
 	rp := &httputil.ReverseProxy{
 		Transport: ttr,
-		Director: func(r *http.Request) {
-			r.URL.Scheme = "http"
-			r.URL.Host = r.Host
+		Rewrite: func(pr *httputil.ProxyRequest) {
+			pr.SetURL(&url.URL{
+				Scheme: "http",
+				Host:   pr.Out.Host,
+			})
 		},
 	}
 
