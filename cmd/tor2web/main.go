@@ -8,6 +8,7 @@ import (
 	"net/http/httputil"
 	"net/url"
 	"os"
+	"strings"
 
 	"github.com/birkelund/boltdbcache"
 	"github.com/gregjones/httpcache"
@@ -62,10 +63,16 @@ func Run(args []string) error {
 	rp := &httputil.ReverseProxy{
 		Transport: transport,
 		Rewrite: func(pr *httputil.ProxyRequest) {
-			pr.SetURL(&url.URL{
-				Scheme: "http",
-				Host:   pr.Out.Host,
-			})
+			host := pr.Out.Host
+			parts := strings.Split(host, ".")
+			if len(parts) > 1 {
+				// Take first part and add .onion
+				onionAddr := parts[0] + ".onion"
+				pr.SetURL(&url.URL{
+					Scheme: "http",
+					Host:   onionAddr,
+				})
+			}
 		},
 	}
 
