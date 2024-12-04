@@ -2,7 +2,6 @@
 package main
 
 import (
-	"context"
 	"flag"
 	"log"
 	"net/http"
@@ -11,8 +10,6 @@ import (
 	"github.com/birkelund/boltdbcache"
 	"github.com/gregjones/httpcache"
 	"golang.org/x/net/proxy"
-	"within.website/ln"
-	"within.website/ln/opname"
 )
 
 var (
@@ -22,7 +19,6 @@ var (
 )
 
 func main() {
-	ctx := opname.With(context.Background(), "main")
 	// Create a socks5 dialer
 	dialer, err := proxy.SOCKS5("tcp", "127.0.0.1:9050", nil, proxy.Direct)
 	if err != nil {
@@ -36,7 +32,7 @@ func main() {
 
 	c, err := boltdbcache.New(*dbLoc, boltdbcache.WithBucketName("darkweb"))
 	if err != nil {
-		ln.FatalErr(ctx, err)
+		log.Fatalln(err)
 	}
 
 	ttr := httpcache.NewTransport(c)
@@ -50,5 +46,5 @@ func main() {
 		},
 	}
 
-	ln.FatalErr(ctx, http.ListenAndServe(":"+*httpPort, rp))
+	log.Fatalln(http.ListenAndServe(":"+*httpPort, rp))
 }
