@@ -18,10 +18,7 @@ import (
 var (
 	dbLoc        = flag.String("db-loc", "./cache.db", "cache location on disk (boltdb)")
 	torSocksAddr = flag.String("tor-socks-addr", "127.0.0.1:9050", "tor socks address")
-	httpPort     = flag.String("port", "80", "HTTP port")
-	httpsPort    = flag.String("https-port", "443", "HTTPS port")
-	tlsCert      = flag.String("tls-cert", "/etc/within/star.onion.cert.pem", "tls cert location on disk")
-	tlsKey       = flag.String("tls-key", "/etc/within/star.onion.key.pem", "tls key location on disk")
+	httpPort     = flag.String("port", "8000", "HTTP port")
 )
 
 func main() {
@@ -53,6 +50,5 @@ func main() {
 		},
 	}
 
-	go ln.FatalErr(ctx, http.ListenAndServe(":"+*httpPort, rp))
-	ln.FatalErr(ctx, http.ListenAndServeTLS(":"+*httpsPort, *tlsCert, *tlsKey, rp))
+	ln.FatalErr(ctx, http.ListenAndServe(":"+*httpPort, rp))
 }
