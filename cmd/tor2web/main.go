@@ -19,8 +19,10 @@ var (
 )
 
 func main() {
+	flag.Parse()
+
 	// Create a socks5 dialer
-	dialer, err := proxy.SOCKS5("tcp", "127.0.0.1:9050", nil, proxy.Direct)
+	dialer, err := proxy.SOCKS5("tcp", *torSocksAddr, nil, proxy.Direct)
 	if err != nil {
 		log.Fatal(err)
 	}
