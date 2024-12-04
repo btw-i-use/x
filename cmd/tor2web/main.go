@@ -20,9 +20,33 @@ func main() {
 	}
 }
 
+func newTransport(torSocksAddr string, dbLoc string) (http.RoundTripper, error) {
+	dialer, err := proxy.SOCKS5("tcp", torSocksAddr, nil, proxy.Direct)
+	if err != nil {
+		return nil, err
+	}
+
+	tr := &http.Transport{
+		Dial: dialer.Dial,
+	}
+
+	if dbLoc == "" {
+		return tr, nil
+	}
+
+	c, err := boltdbcache.New(dbLoc, boltdbcache.WithBucketName("tor2web"))
+	if err != nil {
+		return nil, err
+	}
+
+	ttr := httpcache.NewTransport(c)
+	ttr.Transport = tr
+	return ttr, nil
+}
+
 func Run(args []string) error {
 	fs := flag.NewFlagSet("tor2web", flag.ExitOnError)
-	dbLoc := fs.String("db-loc", "./cache.db", "cache location on disk (boltdb)")
+	dbLoc := fs.String("db-loc", "", "cache location on disk (boltdb)")
 	torSocksAddr := fs.String("tor-socks-addr", "127.0.0.1:9050", "tor socks address")
 	httpPort := fs.String("port", "8000", "HTTP port")
 
@@ -30,25 +54,13 @@ func Run(args []string) error {
 		return err
 	}
 
-	dialer, err := proxy.SOCKS5("tcp", *torSocksAddr, nil, proxy.Direct)
+	transport, err := newTransport(*torSocksAddr, *dbLoc)
 	if err != nil {
 		return err
 	}
-
-	tr := &http.Transport{
-		Dial: dialer.Dial,
-	}
-
-	c, err := boltdbcache.New(*dbLoc, boltdbcache.WithBucketName("darkweb"))
-	if err != nil {
-		return err
-	}
-
-	ttr := httpcache.NewTransport(c)
-	ttr.Transport = tr
 
 	rp := &httputil.ReverseProxy{
-		Transport: ttr,
+		Transport: transport,
 		Rewrite: func(pr *httputil.ProxyRequest) {
 			pr.SetURL(&url.URL{
 				Scheme: "http",
